@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipe Details</title>
+</head>
+<body>
+    <h1 id="recipe-title">Recipe</h1>
+    <img id="recipe-image" src="" alt="Recipe Image" style="width:100%;max-width:500px;">
+    <p id="recipe-details"></p>
+
+    <!-- Comment, Like, Dislike, and Love Buttons -->
+    <div id="buttons">
+        <button id="love-button" onclick="toggleLove()">❤️ Love</button>
+        <button id="dislike-button" onclick="toggleDislike()">👎 Dislike</button>
+        <button onclick="toggleCommentSection()">💬 Comment</button>
+    </div>
+
+    <!-- Comment Section -->
+    <div id="comment-section" style="display:none;">
+        <textarea id="comment-input" placeholder="Write your comment here..."></textarea><br>
+        <button onclick="submitComment()">Submit Comment</button>
+    </div>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    const recipeName = params.get('name');
+
+    const recipes = {
+        spaghetti: {
+        details: "Boil pasta. Make tomato sauce. Mix and serve.",
+        image: "images/spaghetti.jpeg"
+        },
+        pancakes: {
+        details: "Mix flour, eggs, and milk. Cook on a griddle. Serve with syrup.",
+        image: "images/pancakes.jpeg"
+        },
+        fufu: {
+        details: "Boil water. Slowly add maize flour while stirring. Cook until thick. Serve with meat, vegetables, or fish.",
+        image: "images/fufu.jpeg"
+        },
+        salad: {
+        details: "Chop veggies, add dressing, and serve.",
+        image: "images/salad.jpeg"
+        }
+    };
+
+    // Set recipe details on page
+    document.getElementById('recipe-title').textContent = recipeName;
+    document.getElementById('recipe-details').textContent = recipes[recipeName].details;
+    document.getElementById('recipe-image').src = recipes[recipeName].image;
+
+    // Like, Dislike, and Love functionality
+    let liked = false;
+    let disliked = false;
+    let loved = false;
+
+    function toggleLike() {
+        liked = !liked;
+        disliked = false; // Dislike gets disabled when like is clicked
+        loved = false;    // Love gets disabled when like is clicked
+        document.getElementById('love-button').textContent = loved ? "❤️ Loved" : "❤️ Love";
+        document.getElementById('dislike-button').textContent = disliked ? "👎 Disliked" : "👎 Dislike"; 
+    }
+
+    function toggleDislike() {
+        disliked = !disliked;
+        liked = false; // Like gets disabled when dislike is clicked
+        loved = false; // Love gets disabled when dislike is clicked
+        document.getElementById('love-button').textContent = loved ? "❤️ Loved" : "❤️ Love";
+        document.getElementById('dislike-button').textContent = disliked ? "👎 Disliked" : "👎 Dislike";
+    }
+
+    function toggleLove() {
+        loved = !loved;
+        liked = false; // Like gets disabled when love is clicked
+        disliked = false; // Dislike gets disabled when love is clicked
+        document.getElementById('love-button').textContent = loved ? "❤️ Loved" : "❤️ Love";
+        document.getElementById('dislike-button').textContent = disliked ? "👎 Disliked" : "👎 Dislike";
+    }
+
+    // Comment Section Functionality
+    function toggleCommentSection() {
+        const commentSection = document.getElementById('comment-section');
+        commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function submitComment() {
+        const comment = document.getElementById('comment-input').value;
+        if (comment) {
+            alert('Comment submitted: ' + comment);
+            document.getElementById('comment-input').value = ''; // Clear input field
+        } else {
+            alert('Please write a comment first.');
+        }
+    }
+    </script>
+    <div id="social-sharing">
+            <h2>Share This Recipe</h2>
+            <a href="https://facebook.com/sharer/sharer.php?u=[URL]" target="_blank">Facebook</a><br>
+            <a href="https://twitter.com/intent/tweet?url=[URL]" target="_blank">Twitter</a><br>
+            <a href="https://pinterest.com/pin/create/button/?url=[URL]" target="_blank">Pinterest</a>
+    </div>
+    <div>
+        <button onclick="location.href='index.html'">Back to Recipes</button>
+    </div>   
+</body>
+</html>
+
+
